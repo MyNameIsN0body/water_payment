@@ -29,7 +29,7 @@ public class DBConnect {
         if(connection !=null && !connection.isClosed())
             return connection;
         connect();
-    return connection;
+        return connection;
     }
     public Connection openConnection(String DBName, String Password) {
         try {

@@ -36,7 +36,7 @@ public class People {
     public ResultSet selectAllPerson() {
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM user_water;");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM users_water;");
             while (resultSet.next()) {
                 id = resultSet.getInt("user_id");
                 fio = resultSet.getString("fio");
@@ -67,7 +67,7 @@ public class People {
     public ResultSet candidatesPaymentPerson() {
         try {
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM user_water WHERE balance =(SELECT MIN(balance) FROM user_water);");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM users_water WHERE balance =(SELECT MIN(balance) FROM users_water);");
             while (resultSet.next()) {
                 id = resultSet.getInt("user_id");
                 fio = resultSet.getString("fio");

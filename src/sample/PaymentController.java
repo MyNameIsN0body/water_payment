@@ -3,14 +3,20 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,6 +25,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class PaymentController implements Initializable {
+
     @FXML
     private TextField IDUpdatePeopleTextField;
 
@@ -66,5 +73,26 @@ public class PaymentController implements Initializable {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+
+
+        payment_list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+                System.out.println(payment_list.getSelectionModel().getSelectedItem());
+                String a = payment_list.getSelectionModel().getSelectedItem();
+
+                IDUpdatePeopleTextField.setText(payment_list.getSelectionModel().getSelectedItem());
+            }
+        });
     }
+
+//    private void refreshTableScene1() {
+//        FXMLLoader loader = new FXMLLoader(Main.class.getResource("sample.voda_01.fxml"));
+//        TableController ctrl = (TableController)(loader.getController());
+//        ctrl.refreshTable();
+//    }
+
+
 }

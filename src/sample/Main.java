@@ -36,10 +36,10 @@ public class Main extends Application {
         this.primaryStage.setResizable(false);
 
 
-       // Parent root = FXMLLoader.load(getClass().getResource("voda_01.fxml"));
-       // primaryStage.setTitle("График оплаты");
-      //  primaryStage.setResizable(false);
-       // primaryStage.setScene(new Scene(root));
+        // Parent root = FXMLLoader.load(getClass().getResource("voda_01.fxml"));
+        // primaryStage.setTitle("График оплаты");
+        //  primaryStage.setResizable(false);
+        // primaryStage.setScene(new Scene(root));
 
         launchView();
     }

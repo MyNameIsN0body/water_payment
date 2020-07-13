@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,7 +22,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class TableController implements Initializable {
-// TABLE VIEW
+    // TABLE VIEW
     @FXML
     private TableView<ModelTable> allTableView;
 
@@ -31,9 +33,14 @@ public class TableController implements Initializable {
     private TableColumn<ModelTable, String> FIOtableColumn;
 
     @FXML
-    private TableColumn<ModelTable, String> BalancetableColumn;
+    private TableColumn<ModelTable, Double> BalancetableColumn;
 
-    ObservableList<ModelTable> observableList = FXCollections.observableArrayList();
+    ObservableList<ModelTable> observableList = FXCollections.observableArrayList(new Callback<ModelTable, Observable[]>() {
+        @Override
+        public Observable[] call(ModelTable param) {
+            return new Observable[]{param.getStringPropertyId(),param.getStringPropertyFIO(),param.getStringPropertyBalance()};
+        }
+    });
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,7 +48,7 @@ public class TableController implements Initializable {
             Connection connection = DBConnect.getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery("select * from users_water");
             while(resultSet.next()) {
-                observableList.add(new ModelTable(resultSet.getString("user_id"),resultSet.getString("fio"),resultSet.getDouble("balance")));
+                observableList.add(new ModelTable(resultSet.getInt("user_id"),resultSet.getString("fio"),resultSet.getDouble("balance")));
             }
 
         } catch (SQLException | ClassNotFoundException e) {
@@ -87,8 +94,9 @@ public class TableController implements Initializable {
         People people = new People(new DBConnection().openConnection("postgres", "IpMan"));
         people.deletePerson(Integer.parseInt(removePersonTextField.getText()));
         removePersonTextField.clear();
-        allTableView.getItems().clear();
-        initialize(this.location,this.resources);
+        refreshTable();
+//        allTableView.getItems().clear();
+//        initialize(this.location,this.resources);
     }
     @FXML
     private void addPersonButtonAction() {
@@ -102,8 +110,10 @@ public class TableController implements Initializable {
         middleNameTextField.clear();
         balanceTextField.clear();
 
-        allTableView.getItems().clear();
-        initialize(this.location,this.resources);
+
+        refreshTable();
+//        allTableView.getItems().clear();
+//        initialize(this.location,this.resources);
     }
 
 
@@ -119,6 +129,13 @@ public class TableController implements Initializable {
         newStage.setScene(scene);
         newStage.show();
 
+    }
+
+
+
+    public void refreshTable() {
+        allTableView.getItems().clear();
+        initialize(this.location,this.resources);
     }
 
 }
